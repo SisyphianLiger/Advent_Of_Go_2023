@@ -46,13 +46,12 @@ func findFirstNum(input string, m map[string]string) string {
 
 func findLastNum(input string, m map[string]string) string {
     word := "" 
-    for i := len(input) - 1; i > -1; i-- {         
+    for i := len(input) - 1; i >= 0; i-- {         
         if unicode.IsNumber(rune(input[i])) {
             return string(input[i])
         } 
         
         word = string(input[i]) + word
-
         if testDigitSuffix(m, word) {
             _, ok := m[word]
             if !ok {
@@ -60,7 +59,7 @@ func findLastNum(input string, m map[string]string) string {
             }
             break
         }
-        word = string(input[i])
+        word = word[:len(word)-1] 
     } 
     return m[word]
 }
@@ -92,7 +91,7 @@ func storeInput(input *os.File) [][]string {
         output = append(output, lines)
     }
  
-    // outputPrinter(output)
+    outputPrinter(output)
 
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
